@@ -1,0 +1,8 @@
+
+obj
+bin
+
+grammar/csharp
+
+src/foo.*
+
