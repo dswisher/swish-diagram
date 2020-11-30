@@ -16,7 +16,7 @@ namespace SwishDiagram
 
             services.AddSingleton<App>();
 
-            Parser.Default.ParseArguments<Options>(args)
+            CommandLine.Parser.Default.ParseArguments<Options>(args)
                 .WithParsed<Options>(o =>
                 {
                     services.AddSingleton<Options>(o);

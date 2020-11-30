@@ -4,7 +4,14 @@
 lexer grammar PicishLexer;
 
 BOX:    'box';
+CIRCLE: 'circle';
 LINE:   'line';
+
+DOWN:   'down';
+LEFT:   'left';
+RIGHT:  'right';
+UP:     'up';
+MOVE:   'move';
 
 SEMI:   ';';
 

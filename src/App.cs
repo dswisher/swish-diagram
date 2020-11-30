@@ -1,10 +1,10 @@
 // Copyright (c) Doug Swisher. All Rights Reserved.
 // Licensed under the MIT License. See LICENSE.md in the project root for license information.
 
-using System;
 using System.IO;
 
 using Antlr4.Runtime;
+using SwishDiagram.Parser;
 
 namespace SwishDiagram
 {
@@ -45,10 +45,13 @@ namespace SwishDiagram
 
             // TODO - clean this up!
 
-            var result = new PicishVisitor().Visit(parser.file());
+            // var result = new PicishVisitor().Visit(parser.file());
+            var result = new FileVisitor().Visit(parser.file());
+
+            // TODO - dump/render the diagram
 
             // Console.WriteLine("Run is not yet implemented: {0} -> {1}.", options.InputPath, outputPath);
-            Console.WriteLine("Result: {0}", result);
+            // Console.WriteLine("Result: {0}", result);
         }
     }
 }

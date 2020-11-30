@@ -11,10 +11,20 @@ file
 
 statement
     : shape SEMI
+    | directive SEMI
+    ;
+
+directive
+    : UP
+    | DOWN
+    | LEFT
+    | RIGHT
+    | MOVE
     ;
 
 shape
     : BOX
+    | CIRCLE
     | LINE
     ;
 

@@ -44,6 +44,12 @@ public interface IPicishParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatement([NotNull] PicishParser.StatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="PicishParser.directive"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDirective([NotNull] PicishParser.DirectiveContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="PicishParser.shape"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

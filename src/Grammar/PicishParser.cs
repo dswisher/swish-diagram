@@ -36,18 +36,21 @@ public partial class PicishParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		BOX=1, LINE=2, SEMI=3, WS=4;
+		BOX=1, CIRCLE=2, LINE=3, DOWN=4, LEFT=5, RIGHT=6, UP=7, MOVE=8, SEMI=9, 
+		WS=10;
 	public const int
-		RULE_file = 0, RULE_statement = 1, RULE_shape = 2;
+		RULE_file = 0, RULE_statement = 1, RULE_directive = 2, RULE_shape = 3;
 	public static readonly string[] ruleNames = {
-		"file", "statement", "shape"
+		"file", "statement", "directive", "shape"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'box'", "'line'", "';'"
+		null, "'box'", "'circle'", "'line'", "'down'", "'left'", "'right'", "'up'", 
+		"'move'", "';'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "BOX", "LINE", "SEMI", "WS"
+		null, "BOX", "CIRCLE", "LINE", "DOWN", "LEFT", "RIGHT", "UP", "MOVE", 
+		"SEMI", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -110,20 +113,20 @@ public partial class PicishParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 9;
+			State = 11;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while (_la==BOX || _la==LINE) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOX) | (1L << CIRCLE) | (1L << LINE) | (1L << DOWN) | (1L << LEFT) | (1L << RIGHT) | (1L << UP) | (1L << MOVE))) != 0)) {
 				{
 				{
-				State = 6; statement();
+				State = 8; statement();
 				}
 				}
-				State = 11;
+				State = 13;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			}
-			State = 12; Match(Eof);
+			State = 14; Match(Eof);
 			}
 		}
 		catch (RecognitionException re) {
@@ -142,6 +145,9 @@ public partial class PicishParser : Parser {
 			return GetRuleContext<ShapeContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SEMI() { return GetToken(PicishParser.SEMI, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public DirectiveContext directive() {
+			return GetRuleContext<DirectiveContext>(0);
+		}
 		public StatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -160,10 +166,80 @@ public partial class PicishParser : Parser {
 		StatementContext _localctx = new StatementContext(Context, State);
 		EnterRule(_localctx, 2, RULE_statement);
 		try {
+			State = 22;
+			ErrorHandler.Sync(this);
+			switch (TokenStream.LA(1)) {
+			case BOX:
+			case CIRCLE:
+			case LINE:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 16; shape();
+				State = 17; Match(SEMI);
+				}
+				break;
+			case DOWN:
+			case LEFT:
+			case RIGHT:
+			case UP:
+			case MOVE:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 19; directive();
+				State = 20; Match(SEMI);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class DirectiveContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UP() { return GetToken(PicishParser.UP, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOWN() { return GetToken(PicishParser.DOWN, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT() { return GetToken(PicishParser.LEFT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT() { return GetToken(PicishParser.RIGHT, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MOVE() { return GetToken(PicishParser.MOVE, 0); }
+		public DirectiveContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_directive; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IPicishParserVisitor<TResult> typedVisitor = visitor as IPicishParserVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitDirective(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public DirectiveContext directive() {
+		DirectiveContext _localctx = new DirectiveContext(Context, State);
+		EnterRule(_localctx, 4, RULE_directive);
+		int _la;
+		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 14; shape();
-			State = 15; Match(SEMI);
+			State = 24;
+			_la = TokenStream.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DOWN) | (1L << LEFT) | (1L << RIGHT) | (1L << UP) | (1L << MOVE))) != 0)) ) {
+			ErrorHandler.RecoverInline(this);
+			}
+			else {
+				ErrorHandler.ReportMatch(this);
+			    Consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -179,6 +255,7 @@ public partial class PicishParser : Parser {
 
 	public partial class ShapeContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode BOX() { return GetToken(PicishParser.BOX, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CIRCLE() { return GetToken(PicishParser.CIRCLE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LINE() { return GetToken(PicishParser.LINE, 0); }
 		public ShapeContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -196,14 +273,14 @@ public partial class PicishParser : Parser {
 	[RuleVersion(0)]
 	public ShapeContext shape() {
 		ShapeContext _localctx = new ShapeContext(Context, State);
-		EnterRule(_localctx, 4, RULE_shape);
+		EnterRule(_localctx, 6, RULE_shape);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 17;
+			State = 26;
 			_la = TokenStream.LA(1);
-			if ( !(_la==BOX || _la==LINE) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOX) | (1L << CIRCLE) | (1L << LINE))) != 0)) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -225,22 +302,30 @@ public partial class PicishParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\x6', '\x16', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
-		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x3', '\x2', '\a', '\x2', '\n', 
-		'\n', '\x2', '\f', '\x2', '\xE', '\x2', '\r', '\v', '\x2', '\x3', '\x2', 
-		'\x3', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x4', 
-		'\x3', '\x4', '\x3', '\x4', '\x2', '\x2', '\x5', '\x2', '\x4', '\x6', 
-		'\x2', '\x3', '\x3', '\x2', '\x3', '\x4', '\x2', '\x13', '\x2', '\v', 
-		'\x3', '\x2', '\x2', '\x2', '\x4', '\x10', '\x3', '\x2', '\x2', '\x2', 
-		'\x6', '\x13', '\x3', '\x2', '\x2', '\x2', '\b', '\n', '\x5', '\x4', '\x3', 
-		'\x2', '\t', '\b', '\x3', '\x2', '\x2', '\x2', '\n', '\r', '\x3', '\x2', 
-		'\x2', '\x2', '\v', '\t', '\x3', '\x2', '\x2', '\x2', '\v', '\f', '\x3', 
-		'\x2', '\x2', '\x2', '\f', '\xE', '\x3', '\x2', '\x2', '\x2', '\r', '\v', 
-		'\x3', '\x2', '\x2', '\x2', '\xE', '\xF', '\a', '\x2', '\x2', '\x3', '\xF', 
-		'\x3', '\x3', '\x2', '\x2', '\x2', '\x10', '\x11', '\x5', '\x6', '\x4', 
-		'\x2', '\x11', '\x12', '\a', '\x5', '\x2', '\x2', '\x12', '\x5', '\x3', 
-		'\x2', '\x2', '\x2', '\x13', '\x14', '\t', '\x2', '\x2', '\x2', '\x14', 
-		'\a', '\x3', '\x2', '\x2', '\x2', '\x3', '\v',
+		'\x5964', '\x3', '\f', '\x1F', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x3', 
+		'\x2', '\a', '\x2', '\f', '\n', '\x2', '\f', '\x2', '\xE', '\x2', '\xF', 
+		'\v', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', 
+		'\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x5', '\x3', '\x19', 
+		'\n', '\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x5', '\x3', '\x5', '\x3', 
+		'\x5', '\x2', '\x2', '\x6', '\x2', '\x4', '\x6', '\b', '\x2', '\x4', '\x3', 
+		'\x2', '\x6', '\n', '\x3', '\x2', '\x3', '\x5', '\x2', '\x1C', '\x2', 
+		'\r', '\x3', '\x2', '\x2', '\x2', '\x4', '\x18', '\x3', '\x2', '\x2', 
+		'\x2', '\x6', '\x1A', '\x3', '\x2', '\x2', '\x2', '\b', '\x1C', '\x3', 
+		'\x2', '\x2', '\x2', '\n', '\f', '\x5', '\x4', '\x3', '\x2', '\v', '\n', 
+		'\x3', '\x2', '\x2', '\x2', '\f', '\xF', '\x3', '\x2', '\x2', '\x2', '\r', 
+		'\v', '\x3', '\x2', '\x2', '\x2', '\r', '\xE', '\x3', '\x2', '\x2', '\x2', 
+		'\xE', '\x10', '\x3', '\x2', '\x2', '\x2', '\xF', '\r', '\x3', '\x2', 
+		'\x2', '\x2', '\x10', '\x11', '\a', '\x2', '\x2', '\x3', '\x11', '\x3', 
+		'\x3', '\x2', '\x2', '\x2', '\x12', '\x13', '\x5', '\b', '\x5', '\x2', 
+		'\x13', '\x14', '\a', '\v', '\x2', '\x2', '\x14', '\x19', '\x3', '\x2', 
+		'\x2', '\x2', '\x15', '\x16', '\x5', '\x6', '\x4', '\x2', '\x16', '\x17', 
+		'\a', '\v', '\x2', '\x2', '\x17', '\x19', '\x3', '\x2', '\x2', '\x2', 
+		'\x18', '\x12', '\x3', '\x2', '\x2', '\x2', '\x18', '\x15', '\x3', '\x2', 
+		'\x2', '\x2', '\x19', '\x5', '\x3', '\x2', '\x2', '\x2', '\x1A', '\x1B', 
+		'\t', '\x2', '\x2', '\x2', '\x1B', '\a', '\x3', '\x2', '\x2', '\x2', '\x1C', 
+		'\x1D', '\t', '\x3', '\x2', '\x2', '\x1D', '\t', '\x3', '\x2', '\x2', 
+		'\x2', '\x4', '\r', '\x18',
 	};
 
 	public static readonly ATN _ATN =
