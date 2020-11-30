@@ -1,27 +1,34 @@
 
-GRAMMAR=Calculator
-GRAMMAR_FILE=$(GRAMMAR).g4
 ANTLR_JAR=$(HOME)/bin/antlr-4.9/antlr-4.9-complete.jar
+
+GRAMMAR=Picish
+LEXER_FILE=$(GRAMMAR)Lexer.g4
+PARSER_FILE=$(GRAMMAR)Parser.g4
 SHARPDIR=csharp
 OUTDIR=../src/Grammar
 
-GRAM_FILES=\
-		   $(SHARPDIR)/$(GRAMMAR)BaseVisitor.cs \
-		   $(SHARPDIR)/$(GRAMMAR)Lexer.cs \
-		   $(SHARPDIR)/$(GRAMMAR)Parser.cs \
-		   $(SHARPDIR)/$(GRAMMAR)Visitor.cs
+LEXER_CS=\
+		 $(SHARPDIR)/$(GRAMMAR)Lexer.cs
+
+PARSER_CS=\
+		  $(SHARPDIR)/$(GRAMMAR)ParserBaseVisitor.cs \
+		  $(SHARPDIR)/$(GRAMMAR)Parser.cs \
+		  $(SHARPDIR)/$(GRAMMAR)ParserVisitor.cs
 
 OUT_FILES=\
-		  $(OUTDIR)/$(GRAMMAR)BaseVisitor.cs \
+		  $(OUTDIR)/$(GRAMMAR)ParserBaseVisitor.cs \
 		  $(OUTDIR)/$(GRAMMAR)Lexer.cs \
           $(OUTDIR)/$(GRAMMAR)Parser.cs \
-          $(OUTDIR)/I$(GRAMMAR)Visitor.cs
+          $(OUTDIR)/I$(GRAMMAR)ParserVisitor.cs
 
-.PHONY: build
+.PHONY: build clean
 
 build: $(OUT_FILES)
 
-$(OUTDIR)/$(GRAMMAR)BaseVisitor.cs : $(SHARPDIR)/$(GRAMMAR)BaseVisitor.cs $(OUTDIR)
+$(PARSER_CS) $(LEXER_CS): $(PARSER_FILE) $(LEXER_FILE)
+	java -Xmx500M -cp "$(ANTLR_JAR)" org.antlr.v4.Tool -Dlanguage=CSharp -o $(SHARPDIR) $(LEXER_FILE) $(PARSER_FILE) -no-listener -visitor
+
+$(OUTDIR)/$(GRAMMAR)ParserBaseVisitor.cs : $(SHARPDIR)/$(GRAMMAR)ParserBaseVisitor.cs $(OUTDIR)
 	cp $< $@
 
 $(OUTDIR)/$(GRAMMAR)Lexer.cs : $(SHARPDIR)/$(GRAMMAR)Lexer.cs $(OUTDIR)
@@ -30,14 +37,11 @@ $(OUTDIR)/$(GRAMMAR)Lexer.cs : $(SHARPDIR)/$(GRAMMAR)Lexer.cs $(OUTDIR)
 $(OUTDIR)/$(GRAMMAR)Parser.cs : $(SHARPDIR)/$(GRAMMAR)Parser.cs $(OUTDIR)
 	cp $< $@
 
-$(OUTDIR)/I$(GRAMMAR)Visitor.cs : $(SHARPDIR)/$(GRAMMAR)Visitor.cs $(OUTDIR)
+$(OUTDIR)/I$(GRAMMAR)ParserVisitor.cs : $(SHARPDIR)/$(GRAMMAR)ParserVisitor.cs $(OUTDIR)
 	cp $< $@
 
 $(OUTDIR):
 	mkdir $(OUTDIR)
-
-$(GRAM_FILES): $(GRAMMAR_FILE)
-	java -Xmx500M -cp "$(ANTLR_JAR)" org.antlr.v4.Tool -Dlanguage=CSharp -o $(SHARPDIR) $(GRAMMAR_FILE) -no-listener -visitor
 
 clean:
 	rm -rf $(SHARPDIR)

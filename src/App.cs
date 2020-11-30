@@ -33,19 +33,19 @@ namespace SwishDiagram
                 content = reader.ReadToEnd();
             }
 
-            CalculatorLexer lexer = new CalculatorLexer(new AntlrInputStream(content));
+            var lexer = new PicishLexer(new AntlrInputStream(content));
 
             lexer.RemoveErrorListeners();
             lexer.AddErrorListener(new ThrowingErrorListener<int>());
 
-            CalculatorParser parser = new CalculatorParser(new CommonTokenStream(lexer));
+            var parser = new PicishParser(new CommonTokenStream(lexer));
 
             parser.RemoveErrorListeners();
             parser.AddErrorListener(new ThrowingErrorListener<IToken>());
 
             // TODO - clean this up!
 
-            var result = new CalculatorVisitor().Visit(parser.expression());
+            var result = new PicishVisitor().Visit(parser.file());
 
             // Console.WriteLine("Run is not yet implemented: {0} -> {1}.", options.InputPath, outputPath);
             Console.WriteLine("Result: {0}", result);

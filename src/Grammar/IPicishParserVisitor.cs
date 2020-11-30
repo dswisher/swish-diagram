@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from Calculator.g4 by ANTLR 4.9
+// Generated from PicishParser.g4 by ANTLR 4.9
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -25,22 +25,28 @@ using IToken = Antlr4.Runtime.IToken;
 
 /// <summary>
 /// This interface defines a complete generic visitor for a parse tree produced
-/// by <see cref="CalculatorParser"/>.
+/// by <see cref="PicishParser"/>.
 /// </summary>
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9")]
 [System.CLSCompliant(false)]
-public interface ICalculatorVisitor<Result> : IParseTreeVisitor<Result> {
+public interface IPicishParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="CalculatorParser.expression"/>.
+	/// Visit a parse tree produced by <see cref="PicishParser.file"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpression([NotNull] CalculatorParser.ExpressionContext context);
+	Result VisitFile([NotNull] PicishParser.FileContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="CalculatorParser.operand"/>.
+	/// Visit a parse tree produced by <see cref="PicishParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitOperand([NotNull] CalculatorParser.OperandContext context);
+	Result VisitStatement([NotNull] PicishParser.StatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="PicishParser.shape"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitShape([NotNull] PicishParser.ShapeContext context);
 }
