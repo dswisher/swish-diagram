@@ -3,8 +3,7 @@
 
 namespace SwishDiagram.Models
 {
-    public abstract class GraphicObject
+    public class Circle : GraphicObject
     {
-        public Point Center { get; set; }
     }
 }

@@ -37,11 +37,11 @@ public partial class PicishParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		BOX=1, CIRCLE=2, LINE=3, DOWN=4, LEFT=5, RIGHT=6, UP=7, MOVE=8, SEMI=9, 
-		WS=10;
+		WS=10, LINE_COMMENT=11;
 	public const int
-		RULE_file = 0, RULE_statement = 1, RULE_directive = 2, RULE_shape = 3;
+		RULE_file = 0, RULE_statement = 1, RULE_direction = 2, RULE_shape = 3;
 	public static readonly string[] ruleNames = {
-		"file", "statement", "directive", "shape"
+		"file", "statement", "direction", "shape"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -50,7 +50,7 @@ public partial class PicishParser : Parser {
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "BOX", "CIRCLE", "LINE", "DOWN", "LEFT", "RIGHT", "UP", "MOVE", 
-		"SEMI", "WS"
+		"SEMI", "WS", "LINE_COMMENT"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -145,8 +145,8 @@ public partial class PicishParser : Parser {
 			return GetRuleContext<ShapeContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode SEMI() { return GetToken(PicishParser.SEMI, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public DirectiveContext directive() {
-			return GetRuleContext<DirectiveContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public DirectionContext direction() {
+			return GetRuleContext<DirectionContext>(0);
 		}
 		public StatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -185,7 +185,7 @@ public partial class PicishParser : Parser {
 			case MOVE:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 19; directive();
+				State = 19; direction();
 				State = 20; Match(SEMI);
 				}
 				break;
@@ -204,29 +204,29 @@ public partial class PicishParser : Parser {
 		return _localctx;
 	}
 
-	public partial class DirectiveContext : ParserRuleContext {
+	public partial class DirectionContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode UP() { return GetToken(PicishParser.UP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOWN() { return GetToken(PicishParser.DOWN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LEFT() { return GetToken(PicishParser.LEFT, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RIGHT() { return GetToken(PicishParser.RIGHT, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MOVE() { return GetToken(PicishParser.MOVE, 0); }
-		public DirectiveContext(ParserRuleContext parent, int invokingState)
+		public DirectionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_directive; } }
+		public override int RuleIndex { get { return RULE_direction; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IPicishParserVisitor<TResult> typedVisitor = visitor as IPicishParserVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitDirective(this);
+			if (typedVisitor != null) return typedVisitor.VisitDirection(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public DirectiveContext directive() {
-		DirectiveContext _localctx = new DirectiveContext(Context, State);
-		EnterRule(_localctx, 4, RULE_directive);
+	public DirectionContext direction() {
+		DirectionContext _localctx = new DirectionContext(Context, State);
+		EnterRule(_localctx, 4, RULE_direction);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
@@ -302,7 +302,7 @@ public partial class PicishParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\f', '\x1F', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\x5964', '\x3', '\r', '\x1F', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
 		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x3', 
 		'\x2', '\a', '\x2', '\f', '\n', '\x2', '\f', '\x2', '\xE', '\x2', '\xF', 
 		'\v', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', 

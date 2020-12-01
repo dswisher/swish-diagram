@@ -4,5 +4,7 @@ bin
 
 grammar/csharp
 
+test/coverage.opencover.xml
+
 src/foo.*
 

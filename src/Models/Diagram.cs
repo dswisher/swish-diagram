@@ -10,7 +10,7 @@ namespace SwishDiagram.Models
     {
         private List<GraphicObject> objects = new List<GraphicObject>();
 
-        public IList<GraphicObject> Objects
+        public List<GraphicObject> Objects
         {
             get { return objects; }
         }

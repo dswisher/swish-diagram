@@ -11,10 +11,10 @@ file
 
 statement
     : shape SEMI
-    | directive SEMI
+    | direction SEMI
     ;
 
-directive
+direction
     : UP
     | DOWN
     | LEFT
@@ -22,6 +22,7 @@ directive
     | MOVE
     ;
 
+// TODO - line should be separate - box shapes vs others?
 shape
     : BOX
     | CIRCLE

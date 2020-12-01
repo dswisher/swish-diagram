@@ -19,18 +19,18 @@ namespace SwishDiagram.Parser
 
                 return context.shape().Accept(visitor);
             }
-            else if (context.directive() != null)
+            else if (context.direction() != null)
             {
-                var visitor = new DirectiveVisitor();
+                var visitor = new DirectionVisitor();
 
-                context.directive().Accept(visitor);
+                context.direction().Accept(visitor);
 
                 // TODO - is this right?
                 return null;
             }
             else
             {
-                Console.WriteLine("Statement is neither shape nor directive!");
+                Console.WriteLine("Statement is neither shape nor direction!");
 
                 // TODO - is this right?
                 return null;

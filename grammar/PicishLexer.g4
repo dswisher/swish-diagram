@@ -17,3 +17,5 @@ SEMI:   ';';
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
+LINE_COMMENT : '//' ~[\r\n]* -> skip ;
+

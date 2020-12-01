@@ -21,7 +21,7 @@ namespace SwishDiagram.Parser
 
             List<GraphicObject> objects = context.statement().Select(x => x.Accept(statementVisitor)).ToList();
 
-            // TODO - do something with the objects!
+            diagram.Objects.AddRange(objects);
 
             return diagram;
         }

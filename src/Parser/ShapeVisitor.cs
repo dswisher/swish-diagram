@@ -11,11 +11,26 @@ namespace SwishDiagram.Parser
     {
         public override GraphicObject VisitShape(PicishParser.ShapeContext context)
         {
-            // TODO - this isn't quite right - need another abstraction for non-shape statements
-
             Console.WriteLine("Visit Shape: {0}", context.GetText());
 
-            return VisitChildren(context);
+            GraphicObject shape = null;
+            if (context.BOX() != null)
+            {
+                shape = new Box();
+            }
+            else if (context.CIRCLE() != null)
+            {
+                shape = new Circle();
+            }
+
+            if (shape != null)
+            {
+                shape.Center = new Point();
+            }
+
+            // TODO - set width, height, color, etc.
+
+            return shape;
         }
     }
 }

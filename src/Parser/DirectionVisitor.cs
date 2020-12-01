@@ -8,9 +8,9 @@ using SwishDiagram.Models;
 namespace SwishDiagram.Parser
 {
     // TODO - this should return a directive object?
-    internal class DirectiveVisitor : PicishParserBaseVisitor<GraphicObject>
+    internal class DirectionVisitor : PicishParserBaseVisitor<GraphicObject>
     {
-        public override GraphicObject VisitDirective(PicishParser.DirectiveContext context)
+        public override GraphicObject VisitDirection(PicishParser.DirectionContext context)
         {
             Console.WriteLine("Visit Directive: {0}", context.GetText());
 

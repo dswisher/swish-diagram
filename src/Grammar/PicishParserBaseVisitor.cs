@@ -55,7 +55,7 @@ public partial class PicishParserBaseVisitor<Result> : AbstractParseTreeVisitor<
 	/// <return>The visitor result.</return>
 	public virtual Result VisitStatement([NotNull] PicishParser.StatementContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="PicishParser.directive"/>.
+	/// Visit a parse tree produced by <see cref="PicishParser.direction"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -63,7 +63,7 @@ public partial class PicishParserBaseVisitor<Result> : AbstractParseTreeVisitor<
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitDirective([NotNull] PicishParser.DirectiveContext context) { return VisitChildren(context); }
+	public virtual Result VisitDirection([NotNull] PicishParser.DirectionContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="PicishParser.shape"/>.
 	/// <para>
